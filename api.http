@@ -1,0 +1,15 @@
+POST https://billing.smartshell.gg/api
+
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+{
+  "query": "mutation login($input: loginInput!) { login(input: $input) { access_token } }",
+  "variables": {
+    "input": {
+      "login": "79957933647",
+      "password": "12345678",
+      "company_id": 9293
+    }
+  }
+}

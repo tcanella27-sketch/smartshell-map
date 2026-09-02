@@ -1,0 +1,318 @@
+/* Подключаем шрифт (если используете Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* Задаём Roboto как основной шрифт для всего документа */
+html {
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  --bg: #000000;
+  --grid: #2a2a2a;
+  --wall: #c2c2c2;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden; /* или auto если нужен скролл */
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 10px;
+
+  
+  height: 100vh;
+
+  padding: 20 px;
+  box-sizing: border-box;
+
+  /* ВОТ СЮДА ФОН */
+  background: url('/src/MERQ.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  overflow-y: auto;
+}
+
+#promo-image {
+  width: 100%;
+  height: 50vh;
+  max-height: 70vh;
+  object-fit: contain;
+}
+
+#price-image {
+  height: 100%;
+}
+
+.map {
+  flex: 1;
+  display: grid;
+  height: 80vh;
+  gap: 3px;
+}
+
+/* Полная стена */
+.wall-solid {
+  background-color: #1e1e1e;
+}
+.map-cell {
+  width: 90px;
+  height: 90px;
+  box-sizing: border-box;
+  position: relative;
+  border: 0px solid #aaa;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/* .host-card {
+  position: absolute;
+  inset: 6px;
+  border-radius: 14px;
+  border: 7px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 42px;
+  line-height: 1;
+  box-sizing: border-box;
+  user-select: none;
+} */
+
+.host-card {
+  position: absolute;
+  inset: 6px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  
+  /* Разворачиваем контент вертикально по центру */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px; /* Минимальный отступ между номером ПК и временем брони */
+  user-select: none;
+
+  /* Базовый цвет текста */
+  color: #000000;
+  text-shadow: none;
+
+  /* Статичное свечение вокруг карточки */
+  box-shadow: 0 0 14px var(--host-glow-color, rgba(255, 255, 255, 0.2));
+}
+
+/* Номер компьютера — строго 30px */
+.host-name {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+  color: #000000;
+}
+
+/* Строка бронирования под номером — строго 15px */
+.host-booking {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1;
+  color: #000000;
+  white-space: nowrap;
+}
+
+
+
+
+
+/* таблицы */
+.table-section {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.table-section h2 {
+  color: white;
+  margin-top: 0;
+  font-size: 24px;
+}
+
+.google-sheet-table {
+  table-layout: auto; /* позволяет столбцам растягиваться */
+  overflow: auto; /* если таблица шире контейнера */
+  border-collapse: collapse;
+  color: white;
+  /*font-size: clamp(18px, 1vw, 22px);*/
+  font-size: 50px;
+}
+
+.google-sheet-table th,
+.google-sheet-table td {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.google-sheet-table th {
+  background-color: rgba(255, 255, 255, 0.1);
+  font-weight: 600;
+}
+
+.google-sheet-table tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/*---------------------*/
+
+
+/* =========================
+   Footer
+   ========================= */
+
+#footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+
+  background: var(--bg);
+  border-top: 1px solid #222;
+
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+
+  font-size: 28px;
+  color: #aaa;
+}
+
+#footer .powered {
+  margin-left: auto;
+}
+
+/* Базовые свойства для всех ячеек стен — очищаем старый фон */
+[class^="wall-"] {
+  background: transparent !important;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Горизонтальная стена — аккуратная тонкая линия строго по центру ячейки */
+.wall-horizontal::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 3px solid #ffffff;
+}
+
+/* Вертикальная стена — аккуратная тонкая линия строго по центру ячейки */
+.wall-vertical::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  border-left: 3px solid #ffffff;
+}
+
+/* Угловые стены — рамки сходятся в аккуратный угол в центре ячейки */
+.wall-corner::after {
+  content: "";
+  position: absolute;
+  top: 50%; bottom: 0; left: 50%; right: 0;
+  border-top: 3px solid #ffffff;
+  border-left: 3px solid #ffffff;
+}
+.wall-corner1::after {
+  content: "";
+  position: absolute;
+  top: 50%; bottom: 0; left: 0; right: 50%;
+  border-top: 3px solid #ffffff;
+  border-right: 3px solid #ffffff;
+}
+.wall-corner2::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 50%; left: 0; right: 50%;
+  border-bottom: 3px solid #ffffff;
+  border-right: 3px solid #ffffff;
+}
+.wall-corner3::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 50%; left: 50%; right: 0;
+  border-bottom: 3px solid #ffffff;
+  border-left: 3px solid #ffffff;
+}
+
+/* Т-образные стены — рамки образуют идеальные стыки-перекрестки */
+/* Т-образные стены — рамки образуют идеальные стыки-перекрестки */
+
+/* wall-t: горизонтальная линия по центру, ножка идет вправо-вниз */
+.wall-t::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  border-top: 3px solid #ffffff;
+}
+.wall-t::after {
+  content: "";
+  position: absolute;
+  left: 50%; right: 0; top: 50%; bottom: 0;
+  border-left: 3px solid #ffffff;
+}
+
+/* wall-t1: вертикальная линия по центру, ножка идет вправо */
+.wall-t1::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: 50%;
+  border-left: 3px solid #ffffff;
+}
+.wall-t1::after {
+  content: "";
+  position: absolute;
+  left: 50%; right: 0; top: 50%;
+  border-top: 3px solid #ffffff;
+}
+
+/* wall-t2: горизонтальная линия по центру, ножка идет влево-вниз */
+.wall-t2::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  border-top: 3px solid #ffffff;
+}
+.wall-t2::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 50%; top: 0; bottom: 50%;
+  border-right: 3px solid #ffffff;
+}
+
+/* wall-t3: вертикальная линия по центру, ножка идет влево */
+.wall-t3::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: 50%;
+  border-left: 3px solid #ffffff;
+}
+.wall-t3::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 50%; top: 50%;
+  border-top: 3px solid #ffffff;
+}

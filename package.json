@@ -1,0 +1,17 @@
+{
+  "name": "smart-black-box",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@xlsft/smartshell-sdk": "npm:@jsr/xlsft__smartshell-sdk@^1.0.5",
+    "express": "^5.2.1"
+  }
+}
