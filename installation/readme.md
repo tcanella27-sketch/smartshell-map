@@ -1,33 +1,3 @@
-1. Установить node.js
-далее всё через cmd
-2. переходим в папку с файлом server.js (cd ..\..\)
-3. в первый раз запускаем:
-   npm install @xlsft/smartshell-sdk
-   npm install express
-4. Запуск сайта 
-   node server.js
-
-режим киоск:
-chrome --kiosk http://localhost:3000
-или
-"C:\Program Files\Google\Chrome\Application\chrome.exe" --kiosk http://localhost:3000
-
-
-полезные ключи:
---kiosk
---start-fullscreen
---disable-infobars
---autoplay-policy=no-user-gesture-required
-
-**win**
-chrome --kiosk --disable-infobars http://localhost:3000
-или
-msedge --kiosk http://localhost:3000 --edge-kiosk-type=public-browsing
-
-**Linux:**
-google-chrome --kiosk http://localhost:3000
-или 
-chromium-browser --kiosk http://localhost:3000
 # 🗺️ Интерактивная карта компьютерного клуба SmartShell
 
 Локальное информационное табло для второго монитора администратора. Автоматически подтягивает сетку зала, отображает статусы компьютеров (свободен/занят) в реальном времени и выводит текущие бронирования со значком замка прямо из SmartShell API.
@@ -36,22 +6,24 @@ chromium-browser --kiosk http://localhost:3000
 
 Выполните эти простые шаги один раз для первоначальной настройки проекта:
 
-1. **Установите Node.js** (версии 18 или выше) с официального сайта: https://nodejs.org
-2. **Установите Git** в командной строке (CMD) от имени администратора:
+1. **Установите Node.js**
+   Перейдите в папку `installation`, запустите файл `install_node.bat` от имени администратора или установите вручную через `node-v24.13.0-x64.msi`.
+
+**Далее всё выполняем строго через командную строку (CMD):**
+
+2. **Перейдите в папку с файлом server.js** (из папки `installation` поднимаемся в корень проекта):
    ```bash
-   winget install --id Git.Git -e --source winget
+   cd ..
    ```
-   *После установки обязательно перезапустите окно CMD.*
-3. **Клонируйте (скачайте) этот репозиторий** в любую удобную папку на компьютере:
+   *(Если вы открыли новое окно CMD, просто пропишите путь до папки, куда скачали проект, например: `cd C:\путь_к_проекту`)*
+
+3. **В первый раз запускаем установку необходимых библиотек:**
    ```bash
-   git clone HTTPS_ССЫЛКА_НА_ВАШ_РЕПОЗИТОРИЙ
+   npm install @xlsft/smartshell-sdk
+   npm install express
    ```
-4. **Перейдите в папку проекта** и установите все необходимые библиотеки:
-   ```bash
-   cd имя_папки_проекта
-   npm install
-   ```
-5. **Настройте доступы:** Откройте файл `smartshell.js` и укажите ваш реальный пароль и логин от админки клуба.
+
+4. **Настройте доступы:** Откройте файл `smartshell.js` и укажите ваш реальный пароль, логин (телефон) и `company_id` от админки клуба.
 
 ## 💻 Использование
 
