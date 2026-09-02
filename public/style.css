@@ -91,17 +91,16 @@ html, body {
 } */
 
 .host-card {
+  /* Возвращаем абсолютное позиционирование, чтобы квадраты встали по сетке */
   position: absolute;
   inset: 6px;
   box-sizing: border-box;
   border-radius: 14px;
   
-  /* Разворачиваем контент вертикально по центру */
+  /* Идеальное центрирование номера ПК строго по центру квадрата */
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1px; /* Минимальный отступ между номером ПК и временем брони */
   user-select: none;
 
   /* Базовый цвет текста */
@@ -112,22 +111,46 @@ html, body {
   box-shadow: 0 0 14px var(--host-glow-color, rgba(255, 255, 255, 0.2));
 }
 
-/* Номер компьютера — строго 30px */
+/* Номер компьютера — строго 40px, сидит ровно по центру квадрата */
 .host-name {
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 700;
   line-height: 1;
   color: #000000;
 }
 
-/* Строка бронирования под номером — строго 15px */
+/* Часики — привязаны к правому верхнему углу квадрата */
 .host-booking {
-  font-size: 20px;
+  position: absolute;
+  top: 3px;        /* Отступ сверху от верхнего края квадрата */
+  right: 1px;      /* Отступ справа от правого края квадрата */
+  font-size: 20px;  
   font-weight: 600;
   line-height: 1;
   color: #000000;
   white-space: nowrap;
+} /* <-- Скобка закрыта здесь, теперь всё отлично! */
+
+/* Добавляем анимацию пульсации для карточки, если на ней есть значок брони */
+.host-card:has(.host-booking) {
+  animation: pulseGlow 1s infinite ease-in-out;
 }
+
+/* Описание анимации: плавно меняем интенсивность неонового свечения */
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 10px var(--host-glow-color, rgba(255, 255, 255, 0.2));
+  }
+  50% {
+    /* В пике анимации свечение становится ярче и объемнее */
+    box-shadow: 0 0 22px var(--host-glow-color, rgba(252, 251, 251, 0.6));
+    filter: brightness(1.1); /* Слегка подсвечиваем саму карточку */
+  }
+  100% {
+    box-shadow: 0 0 10px var(--host-glow-color, rgba(255, 255, 255, 0.2));
+  }
+}
+
 
 
 

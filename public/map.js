@@ -12,12 +12,12 @@ async function load() {
 const footerTime = document.getElementById("last-update");
 
 const HOST_COLORS = {
-  "Zone_23769": "hsl(56, 100%, 50%)", // Standart Zone_23769
-  "Zone_23811": "#ff248a",          // VIP solo/duo Zone_23811
-  "Zone_23810": "#ff0f0f",          // Bootcamp Zone_23810
-  "Zone_23957": "#7441ff",          // PS5 Pro Zone_23957
-  "Zone_23770": "#ff6600",          // Comfort Zone_23770
-  "Zone_23956": "#ff00ea",          // StreamRoom Zone_23956
+  "Zone_23769": "hsl(56, 100%, 50%)", // Standart
+  "Zone_23811": "#ff248a",          // VIP solo/duo
+  "Zone_23810": "#ff0f0f",          // Bootcamp
+  "Zone_23957": "#7441ff",          // PS5 Pro
+  "Zone_23770": "#ff6600",          // Comfort
+  "Zone_23956": "#ff00ea",          // StreamRoom
   DEFAULT: "#58585865"
 };
 
@@ -73,66 +73,73 @@ function render(layout, hosts) {
         // Строка 1: Крупный номер компьютера (30px)
         const nameDiv = document.createElement("div");
         nameDiv.className = "host-name";
-        nameDiv.textContent = pc.position;
+        
+        // Изменение: автоматически удаляем буквы "PC" или "pc" из названия, оставляя только цифры
+        nameDiv.textContent = pc.position.replace(/PC|pc/g, ''); 
+        
         card.appendChild(nameDiv);
 
-        // Строка 2: Маленький блок бронирования (15px), если бронь есть
+        // Строка 2: Значок часов бронирования (15px)
         if (pc.isBooked && pc.bookingTime) {
           const bookingDiv = document.createElement("div");
           bookingDiv.className = "host-booking";
           bookingDiv.textContent = `🕔`;
-          
           card.appendChild(bookingDiv);
         }
 
-        // Применяем стили отображения
+        // Применяем улучшенные стили отображения
         card.style.background = bg;
-        card.style.opacity = opacity;
+        
+        // Улучшение: Эффект матового стекла вместо блеклого выцветания
+        if (opacity < 1) {
+          card.style.opacity = "0.65"; 
+          card.style.filter = "brightness(0.35) saturate(0.8)"; 
+        } else {
+          card.style.opacity = "1";
+          card.style.filter = "none";
+        }
+
         card.style.border = `1px solid rgba(0, 0, 0, 0.25)`;
         card.style.setProperty('--host-glow-color', bg); 
         
         cell.appendChild(card);
       }
 
-
-        map.appendChild(cell);
-      }
+      map.appendChild(cell);
+    }
   }
-   footerTime.textContent = "Обновлено: " + new Date().toLocaleString();
+  footerTime.textContent = "Обновлено: " + new Date().toLocaleString();
 }
 
 function updatePriceImage() {
   const priceImage = document.getElementById('price-image');
   const now = new Date();
-  const day = now.getDay(); // 0 — воскресенье, 1 — понедельник, ..., 6 — суббота
+  const day = now.getDay(); 
   const hours = now.getHours();
 
-  let imagePath = '/src/price1.jpg'; // картинка по умолчанию
+  let imagePath = '/src/price1.jpg'; 
 
-  // Будни (понедельник–пятница: 1–5)
   if (day >= 1 && day <= 5) {
     if (hours >= 8 && hours < 15) {
-      imagePath = '/src/price1.jpg'; // пн‑пт, 8:00–14:59
+      imagePath = '/src/price1.jpg'; 
     } else {
-      imagePath = '/src/price2.jpg'; // пн‑пт, 15:00–7:59 следующего дня
+      imagePath = '/src/price2.jpg'; 
     }
-  }
-  // Выходные (суббота–воскресенье: 6–0)
-  else {
+  } else {
     if (hours >= 8 && hours < 15) {
-      imagePath = '/src/price3.jpg'; // выходные, 8:00–14:59
+      imagePath = '/src/price3.jpg'; 
     } else {
-      imagePath = '/src/price4.jpg'; // выходные, 15:00–7:59 следующего дня
+      imagePath = '/src/price4.jpg'; 
     }
   }
 
   priceImage.src = imagePath;
 }
 
-// --------------------------------------таблица
+// --------------------------------------таблица Google Списков
 async function loadGoogleSheetData() {
   try {
-    const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSfPhf2dny84ZFHaGPOYdcOtwUlKdMopzjAXC2AozGOWkCLJh7iWaTp3uDr7ysJu1Enkp5ZsHZaJFQs/pub?gid=1975467084&single=true&output=csv');
+    const response = await fetch('https://google.com');
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -144,15 +151,13 @@ async function loadGoogleSheetData() {
   }
 }
 
-
 function parseCSV(csv) {
   const results = Papa.parse(csv, {
-    header: false,   // ❗ ВАЖНО
+    header: false,   
     skipEmptyLines: false
   });
   return results.data;
 }
-
 
 function renderTable(data) {
   const tableContainer = document.getElementById('table-container');
@@ -162,7 +167,6 @@ function renderTable(data) {
 
   if (data.length === 0) return;
 
-  // Заголовок (первая строка)
   const thead = document.createElement('thead');
   const headerRow = document.createElement('tr');
 
@@ -175,7 +179,6 @@ function renderTable(data) {
   thead.appendChild(headerRow);
   table.appendChild(thead);
 
-  // Тело
   const tbody = document.createElement('tbody');
 
   for (let i = 1; i < data.length; i++) {
@@ -201,20 +204,12 @@ async function updateTable() {
   renderTable(data);
 }
 
-// Запускаем при загрузке страницы
+// Инициализация процессов
 updateTable();
-
-// Обновляем каждые 5 секунд (5000 мс)
 setInterval(updateTable, 5000);
 
-
-
-// Запускаем при загрузке страницы
 updatePriceImage();
-
-// Обновляем каждые 5 минут (300 000 мс), чтобы не пропустить смену времени
 setInterval(updatePriceImage, 60000);
-
 
 load();
 setInterval(load, 5000);
