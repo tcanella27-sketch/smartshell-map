@@ -15,7 +15,7 @@
 2. Перейдите на диск `C:\` и скачайте репозиторий:
    ```bash
    cd C:\
-   git clone https://github.com
+   git clone [https://github.com](https://github.com/tcanella27-sketch/smartshell-map)
    ```
 
 ### Шаг 2. Установка Node.js и библиотек
