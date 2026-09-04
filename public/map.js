@@ -80,12 +80,20 @@ function render(layout, hosts) {
         card.appendChild(nameDiv);
 
         // Строка 2: Значок часов бронирования (15px)
+        // Строка 2: Только время бронирования (без длительности в скобках) и значок часов
         if (pc.isBooked && pc.bookingTime) {
           const bookingDiv = document.createElement("div");
           bookingDiv.className = "host-booking";
-          bookingDiv.textContent = `🕔`;
+          
+          // Регулярное выражение удаляет пробелы и любые скобки с текстом внутри них (например, "(2ч)" или "(120м)")
+          const onlyTime = pc.bookingTime.replace(/\s*\(.*?\)/g, '');
+          
+          // Выводим чистое время и добавляем к нему часики справа
+          bookingDiv.textContent = `${onlyTime} 🕔`;
+          
           card.appendChild(bookingDiv);
         }
+
 
         // Применяем улучшенные стили отображения
         card.style.background = bg;

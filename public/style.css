@@ -124,12 +124,14 @@ html, body {
   position: absolute;
   top: 3px;        /* Отступ сверху от верхнего края квадрата */
   right: 1px;      /* Отступ справа от правого края квадрата */
-  font-size: 20px;  
+  font-size: 17px;  
   font-weight: 600;
   line-height: 1;
   color: #000000;
   white-space: nowrap;
 } /* <-- Скобка закрыта здесь, теперь всё отлично! */
+
+
 
 /* Добавляем анимацию пульсации для карточки, если на ней есть значок брони */
 .host-card:has(.host-booking) {
